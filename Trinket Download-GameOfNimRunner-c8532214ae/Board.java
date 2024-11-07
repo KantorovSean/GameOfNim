@@ -33,8 +33,38 @@ public class Board
         player2 = new Player(playerName);
     }
 
+    void numberInput()
+    {
+        while(true)
+        {
+            try 
+            {
+                String numberStr = input.nextLine();
+                int number = Integer.valueOf(numberStr);
+                if (number >= 0)
+                {
+                    break;
+                }
+                else
+                {
+                    System.out.println("Please enter a positive number");
+                }
+            }
+            catch (Exception e)
+            {
+                System.out.println("Please enter a valid number");    
+            }
+            
+        }
+    }
+
     public void play()
     {
-
+        boolean playing = true;
+        //add a quick tutorial with print statements
+        int looper = 1; //will help me keep track of who's turn it is
+        while (playing)
+        {
+        }
     }
 }
