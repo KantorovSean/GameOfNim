@@ -21,14 +21,25 @@ public class Player
         return balance;
     }
 
-    public void  take(int pile, int amount)
+    public boolean getTurn()
+    {
+        return turn;
+    }
+
+    public void setTurn(boolean newTurn)
+    {
+        turn = newTurn;
+    }
+    public int  take(int pile, int amount)
     {
         if (!(amount > pile/2))
         {
             pile -= amount;
             balance += amount; 
         }
+        return pile;
     }
+
     //come back to later to check if they valid or nah
     public void gamblin(int amountGambled)
     {
@@ -53,7 +64,6 @@ public class Player
         if(turn)
         {
             int odds = (int) (4 * Math.random() + 1); 
-            balance -= 25;
             if (odds == 4)
             {
                 turn = true;   

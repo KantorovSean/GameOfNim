@@ -33,7 +33,7 @@ public class Board
         player2 = new Player(playerName);
     }
 
-    void numberInput()
+    public int numberInput()
     {
         while(true)
         {
@@ -41,9 +41,9 @@ public class Board
             {
                 String numberStr = input.nextLine();
                 int number = Integer.valueOf(numberStr);
-                if (number >= 0)
+                if (number > 0)
                 {
-                    break;
+                    return number;
                 }
                 else
                 {
@@ -53,18 +53,95 @@ public class Board
             catch (Exception e)
             {
                 System.out.println("Please enter a valid number");    
+            } 
+        }
+    }
+
+    private void tutorial()
+    {
+        //add a quick tutorial with print statements
+        System.out.println("This is the game of Nim with some slight changes.");
+        System.out.println("You and another player will take turns to pile, and whoever takes the last thing from the pile loses");
+        System.out.println("There is one rule to this simple game, you can only take up to half of the remaining amount in the pile");
+        System.out.println("So if there was 4 left, I can take up to 2");
+        System.out.println("There is a slight modification made to the game where you can gamble the amount you have taken to get more, or to gamble to skip your opponent's turn");
+        System.out.println("However you risk using the amount you have taken so far, but your turn as well");
+    }
+
+    private void turn(Player player, Player playerWhosTurnItIsnt)
+    {
+        System.out.println("It's " + player.getName() + "'s turn");
+        System.out.println("The amount left in the pile is: " + pile);
+        System.out.println("Choose an amount to take:");
+        int amount = numberInput();
+        while (amount > pile/2)
+        {
+            System.out.println("Enter a valid amount it can be no greater than 1/2 the pile");
+            amount = numberInput();
+        }
+        pile = player.take(pile, amount);
+        System.out.println("your balance: " + player.getBalance());
+        System.out.println("Would you like to gamble?");
+        String choice = input.nextLine();
+        while(!(choice.toLowerCase().equals("yes")) && !(choice.toLowerCase().equals("no")))
+        {
+            System.out.println("Make sure to enter a valid input yes, or no.");
+            choice = input.nextLine();
+        }
+        if (choice.toLowerCase().equals("yes"))
+        {
+            System.out.println("Would you like to gamble away your turn, or amount");
+            String secondChoice = input.nextLine();
+            while(!(secondChoice.toLowerCase().equals("amount")) && !(secondChoice.toLowerCase().equals("turn")))
+            {
+                System.out.println("Please enter a valid command, turn or amount.");
+                secondChoice = input.nextLine();
             }
-            
+            if (secondChoice.toLowerCase().equals("turn"))
+            {
+                player.gamblin();
+                if (player.getTurn() == true)
+                {
+                    System.out.println("You won!!!!!!! The gamble. " + playerWhosTurnItIsnt.getName() + " has lost their turn!");
+                    playerWhosTurnItIsnt.setTurn(false);
+                }
+            }
+            else
+            {
+                System.out.println("Enter an amount of your balance to gamble");
+                int stake = numberInput();
+                while (stake > player.getBalance())
+                {
+                    System.out.println("make sure to enter an amount you actually have");
+                    stake = numberInput();
+                }
+                player.gamblin(stake);
+            }
         }
     }
 
     public void play()
-    {
-        boolean playing = true;
-        //add a quick tutorial with print statements
+    {  
+        tutorial(); //quick tutorial so the people know how to play
         int looper = 1; //will help me keep track of who's turn it is
-        while (playing)
+        while (pile > 0)
         {
+            if (player1.getTurn() == true)
+            {
+                turn(player1, player2);
+            }
+            else
+            {
+                player1.setTurn(true);
+            }
+            if (player2.getTurn() == true)
+            {
+                turn(player2, player1);
+            }
+            else
+            {
+                player2.setTurn(true);
+            }
         }
     }
 }
