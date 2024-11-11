@@ -61,7 +61,7 @@ public class Player
 
     public void gamblin()
     {
-        if(turn)
+        if(turn && balance > 5)
         {
             int odds = (int) (4 * Math.random() + 1); 
             if (odds == 4)
@@ -70,8 +70,13 @@ public class Player
             }
             else
             {
+                balance -= 5;
                 turn = false;
             }
+        }
+        else
+        {
+            System.out.print("You don't have enough to gamble");
         }
     }
 }
