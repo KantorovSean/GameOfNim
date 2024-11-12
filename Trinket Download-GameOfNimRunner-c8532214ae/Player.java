@@ -61,7 +61,7 @@ public class Player
 
     public void gamblin()
     {
-        if(turn && balance > 5)
+        if(turn && balance >= 5)
         {
             int odds = (int) (4 * Math.random() + 1); 
             if (odds == 4)
