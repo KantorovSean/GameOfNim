@@ -119,7 +119,13 @@ public class Board
             }
         }
     }
-
+/**
+ * Precondition: The pile must be at least one for the game to start and 
+ * for the method to execute
+ * Postcondition: For the next player to continue the game,
+ * the remaining pile should be half of the previous pile
+ * 
+ */
     public void play()
     {  
         tutorial(); //quick tutorial so the people know how to play
