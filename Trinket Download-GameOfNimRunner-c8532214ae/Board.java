@@ -48,6 +48,7 @@ public class Board
                 else
                 {
                     System.out.println("Please enter a positive number");
+                    continue;
                 }
             }
             catch (Exception e)
@@ -68,16 +69,24 @@ public class Board
         System.out.println("However you risk using the amount you have taken so far, but your turn as well");
     }
 
-    private void turn(Player player, Player playerWhosTurnItIsnt)
+    private boolean turn(Player player, Player playerWhosTurnItIsnt)
     {
         System.out.println("It's " + player.getName() + "'s turn");
         System.out.println("The amount left in the pile is: " + pile);
         System.out.println("Choose an amount to take:");
         int amount = numberInput();
-        while (amount > pile/2)
+        if (pile != 1)
         {
-            System.out.println("Enter a valid amount it can be no greater than 1/2 the pile");
-            amount = numberInput();
+            while (amount > pile/2)
+            {
+                System.out.println("Enter a valid amount it can be no greater than 1/2 the pile");
+                amount = numberInput();
+            }
+        }
+        else
+        {
+            System.out.println("it doesn't matter what you do, as you lose!");
+            return false;
         }
         pile = player.take(pile, amount);
         System.out.println("your balance: " + player.getBalance());
@@ -103,7 +112,7 @@ public class Board
                 if (player.getTurn() == true)
                 {
                     System.out.println("You won!!!!!!! The gamble. " + playerWhosTurnItIsnt.getName() + " has lost their turn!");
-                    playerWhosTurnItIsnt.setTurn(false);
+                    playerWhosTurnItIsnt.setTurnFalse();
                 }
             }
             else
@@ -118,9 +127,10 @@ public class Board
                 player.gamblin(stake);
             }
         }
+        return true;
     }
 /**
- * Precondition: The pile must be at least one for the game to start and 
+ * Precondition: The pile must be made for the game to start and 
  * for the method to execute
  * Postcondition: For the next player to continue the game,
  * the remaining pile should be half of the previous pile
@@ -129,25 +139,37 @@ public class Board
     public void play()
     {  
         tutorial(); //quick tutorial so the people know how to play
-        int looper = 1; //will help me keep track of who's turn it is
         while (pile > 0)
         {
+            boolean end = true;
+            boolean end2 = true; 
             if (player1.getTurn() == true)
             {
-                turn(player1, player2);
+                end = turn(player1, player2);
             }
             else
             {
-                player1.setTurn(true);
+                player1.setTurnTrue();
+            }
+            if (!end)
+            {
+                System.out.println("Player " + player2.getName() + " wins!");
+                break;
             }
             if (player2.getTurn() == true)
             {
-                turn(player2, player1);
+                end2 = turn(player2, player1);
             }
             else
             {
-                player2.setTurn(true);
+                player2.setTurnTrue();
             }
+            if (!end2)
+            {
+                System.out.println("Player " + player1.getName() + " wins!");
+                break;
+            }
+
         }
     }
 }

@@ -26,18 +26,29 @@ public class Player
         return turn;
     }
 
-    public void setTurn(boolean newTurn)
+    public void setTurnFalse()
     {
-        turn = newTurn;
+        turn = false;
+    }
+
+    public void setTurnTrue()
+    {
+        turn = true;
     }
     public int  take(int pile, int amount)
     {
-        if (!(amount > pile/2))
+        if (pile == 1)
+        {
+            System.out.println("made it hereS");
+            pile -= 1;
+        }
+        else if (!(amount > pile/2))
         {
             pile -= amount;
             balance += amount; 
         }
         return pile;
+
     }
 
     //come back to later to check if they valid or nah

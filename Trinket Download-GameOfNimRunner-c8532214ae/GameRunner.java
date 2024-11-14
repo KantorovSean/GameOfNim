@@ -9,10 +9,10 @@ public class GameRunner
 {
   public static void main(String[] args)
   {
-    Scanner playAgain = new Scanner(System.in);
-    Board nim = new Board(); 
+    Scanner playAgain = new Scanner(System.in); 
     while (true)
     {
+      Board nim = new Board();
       nim.play();
       System.out.println("play again?");
       String playin = playAgain.nextLine();
